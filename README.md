@@ -28,6 +28,7 @@ from the command line and filling in some basic options
 > checks
 > Ensure the prettier rules work automatically and we get good linting
 > ensure the tests are easily runable
+> ensure its easy to debug the unit tests
 > Ensure the docs are good and have some examples about how to use it
 > Check the readme is good
 
