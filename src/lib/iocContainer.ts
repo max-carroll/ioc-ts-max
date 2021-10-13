@@ -34,6 +34,7 @@ export class IocContainer {
   }
 }
 
+// TODO: document
 function createInstance<T>(t: new () => T): T {
   return new t()
 }

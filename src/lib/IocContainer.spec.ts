@@ -10,7 +10,6 @@ test('IocContainer', (t) => {
   }
 
   class Eagle implements IBird {
-    wings = 2
     public fly() {
       return 5
     }
