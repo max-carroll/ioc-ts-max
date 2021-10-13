@@ -9,13 +9,15 @@ test('IocContainer', (t) => {
     fly: () => number
   }
 
-  const bird: IBird = { fly: () => 5 }
+  class Eagle implements IBird {
+    fly: () => 5
+  }
 
-  container.register<IBird, typeof bird>()
+  container.register<IBird, Eagle>(Eagle)
 
   const resolved = container.resolve<IBird>()
 
   const result = resolved.fly()
-  const expected = bird.fly()
+  const expected = 5
   t.is(result, expected)
 })
