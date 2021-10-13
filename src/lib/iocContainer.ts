@@ -7,7 +7,11 @@ export class IocContainer {
   // Stubbing register
   // TODO: remove lint disable
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public register<T1, T2>(): void {}
+  public register<T1, T2>(): void {
+    console.log({} as T1)
+    console.log({} as T2)
+    return
+  }
 
   // Stubbing resolve
   // TODO: remove lint disable
@@ -21,16 +25,16 @@ export class IocContainer {
 // https://blog.rsuter.com/how-to-instantiate-a-generic-type-in-typescript/
 // https://stackoverflow.com/questions/17382143/create-a-new-object-from-type-parameter-in-generic-class
 
-class B<T> {
-  Prop: T
-  constructor(TCreator: new () => T) {
-    this.Prop = new TCreator()
-  }
+// class B<T> {
+//   Prop: T
+//   constructor(TCreator: new () => T) {
+//     this.Prop = new TCreator()
+//   }
 
-  createNew(): T {
-    return {} as T
-  }
-}
+//   createNew(): T {
+//     return {} as T
+//   }
+// }
 
 // class Factory<T> {
 //   create<T>(type: new () => T): T {

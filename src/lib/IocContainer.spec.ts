@@ -2,7 +2,7 @@ import test from 'ava'
 
 import { IocContainer } from './IocContainer'
 
-test('container should register types which resolve to instances', (t) => {
+test('IocContainer', (t) => {
   const container = new IocContainer()
 
   interface IBird {
