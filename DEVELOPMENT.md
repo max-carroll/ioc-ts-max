@@ -25,8 +25,8 @@ from the command line and filling in some basic options
 - [x] Ensure the prettier rules work automatically and we get good linting
 - [x] Ensure the tests are easily runable
 - [x] ensure its easy to debug the unit tests
-- [ ] Ensure the docs are good and have some examples about how to use it
-- [ ] Check the readme is good
+- [x] Ensure the docs are good and have some examples about how to use it
+- [x] Check the readme is good
 
 ## Stretch goals
 
@@ -42,6 +42,6 @@ from the command line and filling in some basic options
 ### Generically
 
 - Switch testing framework / or alter setup so that you can run the test with the debug test option rather than play - howerver this will suffice for now
-- Contributing template
+- Contributing.md - I would document which scripts do what in the package.json
 - PR Template
 - Issue template
