@@ -32,5 +32,10 @@ from the command line and filling in some basic options
 > Ensure the docs are good and have some examples about how to use it
 > Check the readme is good
 
-> Stretch goals
+# Stretch goals
+
 > See if we can get another app to consume this library
+
+# Where would I extend this
+
+> Switch testing framework / or alter setup so that you can run the test with the debug test option rather than play - howerver this will suffice for now
