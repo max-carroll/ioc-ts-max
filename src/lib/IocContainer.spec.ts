@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { IocContainer } from './IocContainer'
+import { IocContainer } from './iocContainer'
 
 test('IocContainer', (t) => {
   const container = new IocContainer()
@@ -10,12 +10,14 @@ test('IocContainer', (t) => {
   }
 
   class Eagle implements IBird {
-    fly: () => 5
+    wings = 2
+    public fly() {
+      return 5
+    }
   }
 
-  container.register<IBird, Eagle>(Eagle)
-
-  const resolved = container.resolve<IBird>()
+  container.register('IBird', Eagle)
+  const resolved = container.resolve<IBird>('IBird')
 
   const result = resolved.fly()
   const expected = 5

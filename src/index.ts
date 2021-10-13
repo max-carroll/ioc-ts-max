@@ -1,2 +1,2 @@
 export * from './lib/number'
-export * from './lib/IocContainer'
+export * from './lib/iocContainer'
