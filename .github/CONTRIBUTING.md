@@ -1,6 +1,6 @@
 # Contributing
 
-## install dependencies
+## Install dependencies
 
 `npm install`
 
