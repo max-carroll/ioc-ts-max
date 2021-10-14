@@ -1,6 +1,6 @@
 # The steps you take to make the library great to use
 
-There wasn't much time so I used a tool to generate a boiler plate typescript app
+There wasn't much time so I used a `typescript-starter` to generate a boiler plate typescript app
 which would give me various features already setup such as
 
 - ES Lint
