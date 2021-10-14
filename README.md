@@ -21,10 +21,10 @@ Provides an IoC container which can be used for registering and resolving depend
     }
   }
 
-  // register which interface a class hsould resolve to
+  // register which interface a class should resolve to
   container.register('IBird', Eagle)
 
-  // resolve the implemntation
+  // resolve the implementation
   const resolved : IBird = container.resolve<IBird>('IBird')
 
 
