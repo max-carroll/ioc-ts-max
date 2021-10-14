@@ -32,3 +32,7 @@ Provides an IoC container which can be used for registering and resolving depend
 # Contributing
 
 See our guide to [contributing](.github/CONTRIBUTING.md)
+
+# Evaluation
+
+To see an evaluation of the first round of initial development see [evaluation](EVALUATION.md)
