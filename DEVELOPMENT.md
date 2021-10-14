@@ -34,12 +34,15 @@ from the command line and filling in some basic options
 
 ## Where would I extend this
 
-### Functionaly
+### Functionality
 
-- option for singleton on transient creation
-- consider a static or singleton option, so the container doesn't have to be passed where needed.
+- Option for singleton on transient instances
+- Consider a static or singleton container, so the container doesn't have to be passed where needed.
+- The ability to inect dependencies into dependencies, at the moment, I think it will just work for 1 layer,
+  to make this I make sure that when I generate a new instance it passes in the container, so it may inject
+  the depenencys into the instance it instantiates.
 
-### Generically
+### Library
 
 - Switch testing framework / or alter setup so that you can run the test with the debug test option rather than play - howerver this will suffice for now
 - Contributing.md - I would document which scripts do what in the package.json
