@@ -5,7 +5,7 @@
  */
 export class IocContainer {
   /**
-   * a look up of all the registrations that have been registered
+   * A look up of all the registrations that have been registered
    */
   private registrations = Array<Registration>()
 
@@ -24,9 +24,9 @@ export class IocContainer {
    * container.register('IBird', Eagle)
    * ```
    *
-   * @param key - a string key which will be used to register and resolve this type
-   * @param className - the class to instantiate when resolving by the key
-   * @template Interface - the interface that the class implements
+   * @param key - A string key which will be used to register and resolve this type.
+   * @param className - The class to instantiate when resolving by the key.
+   * @template Interface - The interface that the class implements.
    */
   public register<Interface>(key: string, className: new () => Interface): void {
     const implementation: Interface = createInstance(className)
@@ -55,9 +55,9 @@ export class IocContainer {
    * 
    * ```
    *
-   * @param key - a string key which will be used to register and resolve this type
-   * @template T - the interface the implementation will use
-   * @returns T - the instance of class resolved to
+   * @param key - A string key which will be used to register and resolve this type.
+   * @template T - The interface the implementation will use.
+   * @returns T - The instance of class resolved to.
    */
   public resolve<T>(key: string): T {
     const registration = this.registrations.find((reg) => reg.key === key)
@@ -68,15 +68,15 @@ export class IocContainer {
 /**
  * returns a a new instance of a type passed in
  *
- * @template T - The type of which to instantiate
- * @returns T - An instance of class resolved to
+ * @template T - The type of which to instantiate.
+ * @returns T - An instance of class resolved to.
  */
 function createInstance<T>(t: new () => T): T {
   return new t()
 }
 
 /**
- * an object which allows implementations of objects to be mapped against a string
+ * An object which allows implementations of objects to be mapped against a string.
  */
 interface Registration {
   key: string
