@@ -27,5 +27,8 @@ Provides an IoC container which can be used for registering and resolving depend
   // resolve the implementation
   const resolved : IBird = container.resolve<IBird>('IBird')
 
-
 ```
+
+# Contributing
+
+See our guide to [contributing](.github/CONTRIBUTING.md)
