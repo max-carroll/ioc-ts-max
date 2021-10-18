@@ -29,6 +29,10 @@ export class IocContainer {
    * @template Interface - The interface that the class implements.
    */
   public register<Interface>(key: string, className: new () => Interface): void {
+    const existingRegistration = this.registrations.find((r) => r.key === key)
+
+    if (existingRegistration) throw new Error('Cannot register the same interface twice')
+
     const implementation: Interface = createInstance(className)
     this.registrations.push({
       key,

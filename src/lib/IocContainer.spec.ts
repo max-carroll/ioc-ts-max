@@ -37,9 +37,10 @@ test('IocContainer cannot register to the same interface twice', (t) => {
   }
 
   container.register('IBird', Eagle)
-  const secondRegistration = () => container.register('IBird', Eagle)
 
-  const error = t.throws(secondRegistration, { instanceOf: Error }, 'expect second registration to return an error')
-
-  t.is(error.message, 'Cannot register the same interface twice')
+  t.throws(
+    () => container.register('IBird', Eagle),
+    { instanceOf: Error, message: 'Cannot register the same interface twice' },
+    'expect second registration to return an error',
+  )
 })
