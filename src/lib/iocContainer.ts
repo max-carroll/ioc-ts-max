@@ -28,15 +28,23 @@ export class IocContainer {
    * @param className - The class to instantiate when resolving by the key.
    * @template Interface - The interface that the class implements.
    */
-  public register<Interface>(key: string, className: new (container: IocContainer) => Interface): void {
+  public register<Interface>(
+    key: string,
+    className: new (container: IocContainer) => Interface,
+    scope: Scope = 'transient',
+  ): void {
     //  new (...constructorArgs: any[]): R }>(constructor: Interface, ...args: any[]
     const existingRegistration = this.registrations.find((r) => r.key === key)
 
     if (existingRegistration) throw new Error('Cannot register the same interface twice')
 
+    // const instance = createInstance(className, this)
+
+    console.log(scope)
     this.registrations.push({
       key,
       implementation: className,
+      // instance,
     })
     return
   }
@@ -66,10 +74,15 @@ export class IocContainer {
   public resolve<T>(key: string): T {
     const registration = this.registrations.find((reg) => reg.key === key)
 
+    if (!registration) {
+      throw new Error(`Cannot resolve '${key}' no implementations have been registered`)
+    }
+
     try {
       const newInstance = createInstance(registration.implementation, this)
       return newInstance as T
     } catch (e: any) {
+      // TODO: Implement better way of handling circular dependencies
       if (e.message === 'Maximum call stack size exceeded') {
         throw new Error('Circular dependencies are not allowed')
       } else throw e
@@ -94,3 +107,5 @@ interface Registration {
   key: string
   implementation: new (container: IocContainer) => unknown
 }
+
+type Scope = 'singleton' | 'transient'

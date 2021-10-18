@@ -76,6 +76,17 @@ test('IocContainer - When dependencies also have dependencies, expect they are i
   t.is(result, 'beep')
 })
 
+test('IocContainer - When dependencies arent registered, throw error', (t) => {
+  const container = new IocContainer()
+
+  interface IThing {}
+
+  const error = t.throws(() => container.resolve<IThing>('IThing'))
+
+  t.truthy(error)
+  t.is(error.message, `Cannot resolve 'IThing' no implementations have been registered`)
+})
+
 test('IocContainer - When dependencies are circular, throw error', (t) => {
   const container = new IocContainer()
 
@@ -104,4 +115,31 @@ test('IocContainer - When dependencies are circular, throw error', (t) => {
 
   t.truthy(error)
   t.is(error.message, 'Circular dependencies are not allowed')
+})
+
+test('IocContainer - Dependencies default to transient scope', (t) => {
+  const container = new IocContainer()
+
+  interface ICounter {
+    increment: () => number
+  }
+
+  class Counter implements ICounter {
+    current = 0
+    public increment(): number {
+      this.current++
+      return this.current
+    }
+  }
+
+  container.register('ICounter', Counter)
+
+  const counter1 = container.resolve<ICounter>('ICounter')
+  const counter2 = container.resolve<ICounter>('ICounter')
+
+  const counter1Result = counter1.increment()
+  const counter2Result = counter2.increment()
+
+  t.is(counter1Result, 1)
+  t.is(counter2Result, 1)
 })
