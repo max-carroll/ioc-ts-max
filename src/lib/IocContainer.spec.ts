@@ -44,3 +44,30 @@ test('IocContainer cannot register to the same interface twice', (t) => {
     'expect second registration to return an error',
   )
 })
+
+// test('IocContainer - When dependencies also have dependencies, expect they are injected', (t) => {
+//   const container = new IocContainer()
+
+//   interface IRobot {
+//     laser: ILaser
+//   }
+
+//   interface ILaser {
+//     fire: () => string
+//   }
+
+//   class Laser implements ILaser {
+//     public fire() {
+//       return 'beep'
+//     }
+//   }
+//   class R2D2 implements IRobot {
+//     laser: ILaser
+//     constructor(container: IocContainer) {
+//       this.laser = container.resolve(typeof this.laser)
+//     }
+//   }
+
+//   container.register('ILaser', Laser)
+//   container.register('IRobot', R2D2)
+// })
