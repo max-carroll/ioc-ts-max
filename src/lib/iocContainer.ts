@@ -101,10 +101,8 @@ export class IocContainer {
       return instance as T
     }
 
-    if (scope === 'transient') {
-      const newInstance = createInstance(registration.implementation, this)
-      return newInstance as unknown as T
-    }
+    const newInstance = createInstance(registration.implementation, this)
+    return newInstance as unknown as T
   }
 }
 

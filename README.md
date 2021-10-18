@@ -29,6 +29,41 @@ Provides an IoC container which can be used for registering and resolving depend
 
 ```
 
+# Singleton Scope
+
+```js
+
+  import {IocContainer} from 'ioc-ts-max'
+
+  // create a container for registering types to resolve to
+  const container = new IocContainer()
+
+  interface ICounter {
+    increment: () => number
+  }
+
+  class Counter implements ICounter {
+    current = 0
+    public increment() {
+      this.current++
+      return this.current
+    }
+  }
+
+  // register ICounter to resolve with singleton scope
+  container.register('ICounter', Counter, SCOPE.SINGLETON)
+
+  // resolve the implementation
+  const counter1 : ICounter = container.resolve<ICounter>('ICounter')
+  const counter2 : ICounter = container.resolve<ICounter>('ICounter')
+
+  // counter1 and counter 2 are references to the same instance
+  counter1.increment() // 1
+  counter2.increment() // 2
+  counter1.increment() // 3
+
+```
+
 # Contributing
 
 See our guide to [contributing](.github/CONTRIBUTING.md)
