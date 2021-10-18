@@ -66,8 +66,14 @@ export class IocContainer {
   public resolve<T>(key: string): T {
     const registration = this.registrations.find((reg) => reg.key === key)
 
-    const newInstance = createInstance(registration.implementation, this)
-    return newInstance as T
+    try {
+      const newInstance = createInstance(registration.implementation, this)
+      return newInstance as T
+    } catch (e: any) {
+      if (e.message === 'Maximum call stack size exceeded') {
+        throw new Error('Circular dependencies are not allowed')
+      } else throw e
+    }
   }
 }
 

@@ -100,7 +100,8 @@ test('IocContainer - When dependencies are circular, throw error', (t) => {
   container.register('IThing1', Thing1)
   container.register('IThing2', Thing2)
 
-  const error = t.throws(() => container.resolve<IThing1>('Thing1'))
+  const error = t.throws(() => container.resolve<IThing1>('IThing1'))
 
   t.truthy(error)
+  t.is(error.message, 'Circular dependencies are not allowed')
 })
