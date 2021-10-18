@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import test from 'ava'
 
-import { IocContainer } from './iocContainer'
 import { SCOPE } from './Scope'
+import { IocContainer } from './iocContainer'
 
 test('IocContainer Resolves to an instance of the registered class', (t) => {
   const container = new IocContainer()
