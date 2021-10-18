@@ -77,7 +77,7 @@ test('IocContainer - When dependencies also have dependencies, expect they are i
   t.is(result, 'beep')
 })
 
-test('IocContainer - When dependencies arent registered, throw error', (t) => {
+test(`IocContainer - When dependencies aren't registered, throw error`, (t) => {
   const container = new IocContainer()
 
   interface IThing {}
