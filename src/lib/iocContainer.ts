@@ -1,8 +1,7 @@
-/**
+import { Registration } from './Registration'
+import { Scope } from './Scope'
 
- *
- * Use the iocContainer class to register and resolve dependencies
- */
+// Use the iocContainer class to register and resolve dependencies
 export class IocContainer {
   /**
    * A look up of all the registrations that have been registered
@@ -26,6 +25,7 @@ export class IocContainer {
    *
    * @param key - A string key which will be used to register and resolve this type.
    * @param className - The class to instantiate when resolving by the key.
+   * @param scope - Whether to resolve in transient or singleton scope
    * @template Interface - The interface that the class implements.
    */
   public register<Interface>(
@@ -37,7 +37,6 @@ export class IocContainer {
 
     if (existingRegistration) throw new Error('Cannot register the same interface twice')
 
-    console.log(scope)
     this.registrations.push({
       key,
       implementation: className,
@@ -60,8 +59,6 @@ export class IocContainer {
    *
    * container.register('IBird', Eagle)
    * var bird = container.resolve<IBird>("IBird")
-   
-   * 
    * ```
    *
    * @param key - A string key which will be used to register and resolve this type.
@@ -94,7 +91,7 @@ export class IocContainer {
 /**
  * returns a a new instance of a type passed in
  *
- * @template T - The type of which to instantiate.
+ * @template T - The type to instantiate.
  * @returns T - An instance of class resolved to.
  */
 function createInstance<T extends { new (container: IocContainer) }>(constructor: T, container: IocContainer) {
@@ -108,22 +105,3 @@ function createInstance<T extends { new (container: IocContainer) }>(constructor
     } else throw e
   }
 }
-
-/**
- * An object which allows implementations of objects to be mapped against a string.
- */
-interface Registration {
-  /** The key which is used to identify the registration */
-  key: string
-  /** The implementation of the registration */
-  implementation: new (container: IocContainer) => unknown
-  /** The scope in which to resolve instances */
-  scope: Scope
-  /** If a singleton scope use this instance */
-  instance?: unknown
-}
-
-/**
- * Whether to resolve dependency to a transient or a singleton instance
- */
-type Scope = 'singleton' | 'transient'
