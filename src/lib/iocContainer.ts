@@ -34,10 +34,9 @@ export class IocContainer {
 
     if (existingRegistration) throw new Error('Cannot register the same interface twice')
 
-    const implementation: Interface = createInstance(className, this)
     this.registrations.push({
       key,
-      implementation,
+      implementation: className,
     })
     return
   }
@@ -66,7 +65,9 @@ export class IocContainer {
    */
   public resolve<T>(key: string): T {
     const registration = this.registrations.find((reg) => reg.key === key)
-    return registration.implementation as T
+
+    const newInstance = createInstance(registration.implementation, this)
+    return newInstance as T
   }
 }
 
@@ -85,5 +86,5 @@ function createInstance<T extends { new (container: IocContainer) }>(constructor
  */
 interface Registration {
   key: string
-  implementation: unknown
+  implementation: new (container: IocContainer) => unknown
 }

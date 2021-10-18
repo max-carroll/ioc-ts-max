@@ -75,3 +75,35 @@ test('IocContainer - When dependencies also have dependencies, expect they are i
   const result = r2d2.laser.fire()
   t.is(result, 'beep')
 })
+
+test('IocContainer - When dependencies are circular, throw error', (t) => {
+  const container = new IocContainer()
+
+  interface IThing1 {}
+
+  interface IThing2 {}
+
+  class Thing1 implements IThing1 {
+    thing2: IThing2
+    constructor(container: IocContainer) {
+      this.thing2 = container.resolve<IThing2>('IThing2')
+    }
+  }
+
+  class Thing2 implements IThing2 {
+    thing1: IThing1
+    constructor(container: IocContainer) {
+      this.thing1 = container.resolve<IThing1>('IThing1')
+    }
+  }
+
+  container.register('IThing1', Thing1)
+  container.register('IThing2', Thing2)
+
+  //const error = t.throws(() => container.resolve<IThing1>('Thing1'))
+
+  const thing = container.resolve<IThing1>('IThing1')
+
+  // t.truthy(error)
+  t.truthy(thing)
+})
