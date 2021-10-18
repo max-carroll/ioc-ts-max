@@ -1,7 +1,39 @@
 import { Registration } from './Registration'
 import { Scope } from './Scope'
 
-// Use the iocContainer class to register and resolve dependencies
+/**
+ *
+ *  Use the iocContainer class to register and resolve dependencies
+ *
+ *    * ### Import as ES Module
+ * ```js
+ * import { IocContainer } from 'ioc-ts-max'
+ * ```
+ *
+ * ### Register a dependency to resolve in transient scope
+ *  ```js
+ * interface IBird {}
+ * class Eagle implements IBird {}
+ * var container = new IocContainer()
+ *
+ * container.register('IBird', Eagle)
+ * var bird = container.resolve<IBird>("IBird")
+ * ```
+ *
+ *  ### Register a dependency to resolve in singleton scope
+ *  ```js
+ * interface IBird {}
+ * class Counter implements ICounter {}
+ * var container = new IocContainer()
+ *
+ * container.register('ICounter', Counter, 'singleton')
+ * var counter1 = container.resolve<ICounter>("ICounter")
+ * var counter2 = container.resolve<ICounter>("ICounter")
+ *
+ * counter1.increment() // 1
+ * counter2.increment() // 2
+ * ```
+ */
 export class IocContainer {
   /**
    * A look up of all the registrations that have been registered
@@ -14,7 +46,6 @@ export class IocContainer {
    *
    * ### Example (es module)
    * ```js
-   * import { IocContainer } from 'ioc-ts-max'
    *
    * interface IBird {}
    * class Eagle implements IBird {}
@@ -46,20 +77,7 @@ export class IocContainer {
   }
 
   /**
-   * Registers a concrete implementation of an interface to a string
-   * which can be used subsequently to resolve to.
-   *
-   * ### Example (es module)
-   * ```js
-   * import { IocContainer } from 'ioc-ts-max'
-   *
-   * interface IBird {}
-   * class Eagle implements IBird {}
-   * var container = new IocContainer()
-   *
-   * container.register('IBird', Eagle)
-   * var bird = container.resolve<IBird>("IBird")
-   * ```
+   * Resolves to the registered implementation of an interface.
    *
    * @param key - A string key which will be used to register and resolve this type.
    * @template T - The interface the implementation will use.

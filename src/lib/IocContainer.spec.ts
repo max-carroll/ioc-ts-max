@@ -2,6 +2,7 @@
 import test from 'ava'
 
 import { IocContainer } from './iocContainer'
+import { SCOPE } from './Scope'
 
 test('IocContainer Resolves to an instance of the registered class', (t) => {
   const container = new IocContainer()
@@ -152,7 +153,7 @@ test('IocContainer - When registering in singleton scope, expect each resolve ca
 
   class Thing implements IThing {}
 
-  container.register('IThing', Thing, 'singleton')
+  container.register('IThing', Thing, SCOPE.SINGLETON)
 
   const counter1 = container.resolve<IThing>('IThing')
   const counter2 = container.resolve<IThing>('IThing')
@@ -175,7 +176,7 @@ test('IocContainer - Counter in singleton scope - increments the singleton insta
     }
   }
 
-  container.register('ICounter', Counter, 'singleton')
+  container.register('ICounter', Counter, SCOPE.SINGLETON)
 
   const counter1 = container.resolve<ICounter>('ICounter')
   const counter2 = container.resolve<ICounter>('ICounter')
@@ -186,4 +187,19 @@ test('IocContainer - Counter in singleton scope - increments the singleton insta
   t.is(counter2.increment(), 2)
   t.is(counter3.increment(), 3)
   t.is(counter4.increment(), 4)
+})
+
+test('IocContainer - Explicit transient scope - expect different instances', (t) => {
+  const container = new IocContainer()
+
+  interface IThing {}
+
+  class Thing implements IThing {}
+
+  container.register('IThing', Thing, SCOPE.TRANSIENT)
+
+  const thing1 = container.resolve<IThing>('IThing')
+  const thing2 = container.resolve<IThing>('IThing')
+
+  t.not(thing1, thing2)
 })
