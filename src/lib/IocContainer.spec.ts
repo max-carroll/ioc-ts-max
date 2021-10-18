@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 import test from 'ava'
 
 import { IocContainer } from './iocContainer'
