@@ -45,29 +45,33 @@ test('IocContainer cannot register to the same interface twice', (t) => {
   )
 })
 
-// test('IocContainer - When dependencies also have dependencies, expect they are injected', (t) => {
-//   const container = new IocContainer()
+test('IocContainer - When dependencies also have dependencies, expect they are injected', (t) => {
+  const container = new IocContainer()
 
-//   interface IRobot {
-//     laser: ILaser
-//   }
+  interface IRobot {
+    laser: ILaser
+  }
 
-//   interface ILaser {
-//     fire: () => string
-//   }
+  interface ILaser {
+    fire: () => string
+  }
 
-//   class Laser implements ILaser {
-//     public fire() {
-//       return 'beep'
-//     }
-//   }
-//   class R2D2 implements IRobot {
-//     laser: ILaser
-//     constructor(container: IocContainer) {
-//       this.laser = container.resolve(typeof this.laser)
-//     }
-//   }
+  class Laser implements ILaser {
+    public fire() {
+      return 'beep'
+    }
+  }
+  class R2D2 implements IRobot {
+    laser: ILaser
+    constructor(container: IocContainer) {
+      this.laser = container.resolve<ILaser>('ILaser')
+    }
+  }
 
-//   container.register('ILaser', Laser)
-//   container.register('IRobot', R2D2)
-// })
+  container.register('ILaser', Laser)
+  container.register('IRobot', R2D2)
+
+  const r2d2 = container.resolve<IRobot>('IRobot')
+  const result = r2d2.laser.fire()
+  t.is(result, 'beep')
+})

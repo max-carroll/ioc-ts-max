@@ -28,13 +28,13 @@ export class IocContainer {
    * @param className - The class to instantiate when resolving by the key.
    * @template Interface - The interface that the class implements.
    */
-  public register<R, T extends { new (...constructorArgs: any[]): R }>(key: string, constructor: T, ..._args: any[]): void {
+  public register<Interface>(key: string, className: new (container: IocContainer) => Interface): void {
     //  new (...constructorArgs: any[]): R }>(constructor: Interface, ...args: any[]
     const existingRegistration = this.registrations.find((r) => r.key === key)
 
     if (existingRegistration) throw new Error('Cannot register the same interface twice')
 
-    const implementation: R = createInstance(constructor, this)
+    const implementation: Interface = createInstance(className, this)
     this.registrations.push({
       key,
       implementation,
@@ -80,8 +80,8 @@ export class IocContainer {
 //   return new t()
 // }
 
-function createInstance<R, T extends { new (...constructorArgs: any[]): R }>(constructor: T, ...args: any[]): R {
-  return new constructor(args)
+function createInstance<R, T extends { new (...constructorArgs: any[]): R }>(constructor: T, container: IocContainer): R {
+  return new constructor(container)
 }
 
 /**
