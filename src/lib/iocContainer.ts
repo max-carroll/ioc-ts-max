@@ -76,11 +76,7 @@ export class IocContainer {
  * @template T - The type of which to instantiate.
  * @returns T - An instance of class resolved to.
  */
-// function createInstance<T>(t: new () => T): T {
-//   return new t()
-// }
-
-function createInstance<R, T extends { new (...constructorArgs: any[]): R }>(constructor: T, container: IocContainer): R {
+function createInstance<T extends { new (container: IocContainer) }>(constructor: T, container: IocContainer) {
   return new constructor(container)
 }
 
