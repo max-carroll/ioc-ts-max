@@ -33,18 +33,15 @@ export class IocContainer {
     className: new (container: IocContainer) => Interface,
     scope: Scope = 'transient',
   ): void {
-    //  new (...constructorArgs: any[]): R }>(constructor: Interface, ...args: any[]
     const existingRegistration = this.registrations.find((r) => r.key === key)
 
     if (existingRegistration) throw new Error('Cannot register the same interface twice')
-
-    // const instance = createInstance(className, this)
 
     console.log(scope)
     this.registrations.push({
       key,
       implementation: className,
-      // instance,
+      scope,
     })
     return
   }
@@ -78,6 +75,15 @@ export class IocContainer {
       throw new Error(`Cannot resolve '${key}' no implementations have been registered`)
     }
 
+    if (registration.scope === 'singleton') {
+      if (registration.instance) {
+        return registration.instance as T
+      } else {
+        registration.instance = createInstance(registration.implementation, this)
+        return registration.instance as T
+      }
+    }
+
     try {
       const newInstance = createInstance(registration.implementation, this)
       return newInstance as T
@@ -106,6 +112,8 @@ function createInstance<T extends { new (container: IocContainer) }>(constructor
 interface Registration {
   key: string
   implementation: new (container: IocContainer) => unknown
+  scope: Scope
+  instance?: unknown
 }
 
 type Scope = 'singleton' | 'transient'
