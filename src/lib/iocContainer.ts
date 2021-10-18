@@ -75,24 +75,19 @@ export class IocContainer {
       throw new Error(`Cannot resolve '${key}' no implementations have been registered`)
     }
 
-    if (registration.scope === 'singleton') {
-      if (registration.instance) {
-        return registration.instance as T
-      } else {
-        registration.instance = createInstance(registration.implementation, this)
-        return registration.instance as T
-      }
+    const { scope, instance } = registration
+
+    if (scope === 'singleton' && !instance) {
+      registration.instance = createInstance(registration.implementation, this)
+      return registration.instance as T
     }
 
-    try {
-      const newInstance = createInstance(registration.implementation, this)
-      return newInstance as T
-    } catch (e: any) {
-      // TODO: Implement better way of handling circular dependencies
-      if (e.message === 'Maximum call stack size exceeded') {
-        throw new Error('Circular dependencies are not allowed')
-      } else throw e
+    if (scope === 'singleton' && instance) {
+      return instance as T
     }
+
+    const newInstance = createInstance(registration.implementation, this)
+    return newInstance as unknown as T
   }
 }
 
@@ -103,16 +98,28 @@ export class IocContainer {
  * @returns T - An instance of class resolved to.
  */
 function createInstance<T extends { new (container: IocContainer) }>(constructor: T, container: IocContainer) {
-  return new constructor(container)
+  try {
+    const instance = new constructor(container)
+    return instance as T
+  } catch (e: any) {
+    // TODO: Implement better way of handling circular dependencies
+    if (e.message === 'Maximum call stack size exceeded') {
+      throw new Error('Circular dependencies are not allowed')
+    } else throw e
+  }
 }
 
 /**
  * An object which allows implementations of objects to be mapped against a string.
  */
 interface Registration {
+  /** The key which is used to identify the registration */
   key: string
+  /** The implementation of the registration */
   implementation: new (container: IocContainer) => unknown
+  /** The scope in which to resolve instances */
   scope: Scope
+  /** If a singleton scope use this instance */
   instance?: unknown
 }
 
