@@ -116,4 +116,7 @@ interface Registration {
   instance?: unknown
 }
 
+/**
+ * Whether to resolve dependency to a transient or a singleton instance
+ */
 type Scope = 'singleton' | 'transient'
