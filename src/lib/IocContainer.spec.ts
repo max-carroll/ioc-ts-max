@@ -147,6 +147,21 @@ test('IocContainer - Dependencies default to transient scope', (t) => {
 test('IocContainer - When registering in singleton scope, expect each resolve call to be of the same instance ', (t) => {
   const container = new IocContainer()
 
+  interface IThing {}
+
+  class Thing implements IThing {}
+
+  container.register('IThing', Thing, 'singleton')
+
+  const counter1 = container.resolve<IThing>('IThing')
+  const counter2 = container.resolve<IThing>('IThing')
+
+  t.is(counter1, counter2)
+})
+
+test('IocContainer - Counter in singleton scope - increments the singleton instance', (t) => {
+  const container = new IocContainer()
+
   interface ICounter {
     increment: () => number
   }
@@ -163,6 +178,11 @@ test('IocContainer - When registering in singleton scope, expect each resolve ca
 
   const counter1 = container.resolve<ICounter>('ICounter')
   const counter2 = container.resolve<ICounter>('ICounter')
+  const counter3 = container.resolve<ICounter>('ICounter')
+  const counter4 = container.resolve<ICounter>('ICounter')
 
-  t.is(counter1, counter2)
+  t.is(counter1.increment(), 1)
+  t.is(counter2.increment(), 2)
+  t.is(counter3.increment(), 3)
+  t.is(counter4.increment(), 4)
 })
